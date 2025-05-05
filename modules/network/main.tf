@@ -20,5 +20,21 @@ resource "aws_vpc" "main_vpc" {
     }
 }
 
-  
+resource "aws_subnet" "public_subnets" {
+  vpc_id = "${aws_vpc.main_vpc.id}"
+    count = "${length(var.public_subnets)}"
+    cidr_block = "${element(var.public_subnets, count.index)}"
+    map_public_ip_on_launch = true
+    tags = {
+        Name = "${var.name_prefix}-public-${count.index}"
+    }
+}
 
+resource "aws_subnet" "private_subnets" {
+  vpc_id = "${aws_vpc.main_vpc.id}"
+    count = "${length(var.private_subnets)}"
+    cidr_block = "${element(var.private_subnets, count.index)}"
+    tags = {
+        Name = "${var.name_prefix}-private-${count.index}"
+    }
+}

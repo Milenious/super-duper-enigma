@@ -14,3 +14,4 @@ resource "aws_db_instance" "lk-super-db" {
     
 
 }
+
